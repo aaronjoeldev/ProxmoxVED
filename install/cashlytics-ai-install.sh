@@ -50,10 +50,14 @@ NEXT_PUBLIC_DEFAULT_CURRENCY=EUR
 EOF
 
 cd /opt/cashlytics-ai
-$STD npm ci --omit=dev
-# Next.js build needs up to 4 GB RAM; limit Node.js heap to avoid OOM kills
+# HUSKY=0 disables the prepare hook (husky is a devDep, not present in CI)
+# Full npm ci needed — Next.js build requires devDeps (TypeScript, ESLint, etc.)
+HUSKY=0 $STD npm ci
+# Limit Node.js heap to avoid OOM kills during Next.js build
 NODE_OPTIONS="--max-old-space-size=3072" $STD npm run build
 $STD npm run db:push
+# Remove devDeps after build to reduce container size
+HUSKY=0 $STD npm prune --omit=dev
 msg_ok "Configured ${APPLICATION}"
 
 msg_info "Creating Service"
