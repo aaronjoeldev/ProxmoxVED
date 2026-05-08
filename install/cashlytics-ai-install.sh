@@ -19,7 +19,7 @@ PG_DB_NAME="cashlytics" PG_DB_USER="cashlytics" setup_postgresql_db
 
 fetch_and_deploy_gh_release "cashlytics-ai" "aaronjoeldev/cashlytics-ai" "tarball"
 
-msg_info "Configuring ${APP}"
+msg_info "Configuring ${APPLICATION}"
 
 # --- Generate secrets ---
 AUTH_SECRET=$(openssl rand -base64 32)
@@ -53,7 +53,7 @@ $STD npm ci --omit=dev
 $STD npm run build
 $STD npm run db:push
 echo "${RELEASE}" >/opt/cashlytics-ai_version.txt
-msg_ok "Configured ${APP}"
+msg_ok "Configured ${APPLICATION}"
 
 msg_info "Creating Service"
 cat <<EOF >/etc/systemd/system/cashlytics.service
