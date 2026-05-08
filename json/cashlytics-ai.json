@@ -1,0 +1,48 @@
+{
+  "name": "Cashlytics",
+  "slug": "cashlytics-ai",
+  "categories": [
+    6
+  ],
+  "date_created": "2026-05-08",
+  "type": "ct",
+  "updateable": true,
+  "privileged": false,
+  "interface_port": 3000,
+  "documentation": "https://docs.cashlytics.online",
+  "website": "https://cashlytics.online",
+  "logo": "https://cdn.jsdelivr.net/gh/selfhst/icons@main/webp/cashlytics.webp",
+  "description": "Cashlytics is a self-hosted personal finance application with an AI-powered assistant. Track accounts, categorize transactions, forecast spending, and manage recurring payments — all with your data staying on your own infrastructure.",
+  "install_methods": [
+    {
+      "type": "default",
+      "script": "ct/cashlytics-ai.sh",
+      "config_path": "/opt/cashlytics-ai/.env",
+      "resources": {
+        "cpu": 2,
+        "ram": 2048,
+        "hdd": 8,
+        "os": "Debian",
+        "version": "13"
+      }
+    }
+  ],
+  "default_credentials": {
+    "username": null,
+    "password": null
+  },
+  "notes": [
+    {
+      "text": "Create your account on first access. In Single-User Mode only the first registration is accepted.",
+      "type": "info"
+    },
+    {
+      "text": "AI features (assistant, receipt scanner, CSV import) require an OpenAI API key set in /opt/cashlytics-ai/.env.",
+      "type": "info"
+    },
+    {
+      "text": "Edit /opt/cashlytics-ai/.env to configure SMTP email, locale, currency, and notification schedule. Restart with: systemctl restart cashlytics",
+      "type": "info"
+    }
+  ]
+}
