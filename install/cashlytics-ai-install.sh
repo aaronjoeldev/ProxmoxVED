@@ -21,20 +21,6 @@ fetch_and_deploy_gh_release "cashlytics-ai" "aaronjoeldev/cashlytics-ai" "tarbal
 
 msg_info "Configuring ${APP}"
 
-# --- Interactive: Single-User Mode ---
-if whiptail --title "Cashlytics – User Mode" \
-  --yesno "Enable Single-User Mode?\n\nYes = Personal use (no login screen, first signup only)\nNo  = Open registration (family / multi-user)" \
-  12 65; then
-  SINGLE_USER_MODE="true"
-else
-  SINGLE_USER_MODE="false"
-fi
-
-# --- Interactive: OpenAI API Key (optional) ---
-OPENAI_API_KEY=$(whiptail --title "Cashlytics – AI Features (optional)" \
-  --inputbox "Enter your OpenAI API Key to enable the AI assistant.\nLeave empty to skip — can be added later in .env" \
-  10 70 "" 3>&1 1>&2 2>&3) || OPENAI_API_KEY=""
-
 # --- Generate secrets ---
 AUTH_SECRET=$(openssl rand -base64 32)
 CRON_SECRET=$(openssl rand -hex 32)
@@ -50,8 +36,10 @@ DATABASE_URL=postgresql://${PG_DB_USER}:${PG_DB_PASS}@127.0.0.1:5432/${PG_DB_NAM
 NEXT_PUBLIC_APP_URL=http://${LOCAL_IP}:3000
 AUTH_SECRET=${AUTH_SECRET}
 AUTH_TRUST_HOST=true
-SINGLE_USER_MODE=${SINGLE_USER_MODE}
-OPENAI_API_KEY=${OPENAI_API_KEY}
+# Registration: true = personal use (first signup only), false = open multi-user
+SINGLE_USER_MODE=true
+# Optional: add OpenAI API key to enable AI assistant, receipt scanner, CSV import
+OPENAI_API_KEY=
 CRON_SECRET=${CRON_SECRET}
 VAPID_PUBLIC_KEY=${VAPID_PUBLIC_KEY}
 VAPID_PRIVATE_KEY=${VAPID_PRIVATE_KEY}
