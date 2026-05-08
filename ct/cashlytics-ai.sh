@@ -5,7 +5,7 @@ source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxV
 # License: MIT | https://github.com/community-scripts/ProxmoxVED/raw/main/LICENSE
 # Source: https://github.com/aaronjoeldev/cashlytics-ai
 
-APP="Cashlytics"
+APP="Cashlytics-AI"
 var_tags="${var_tags:-finance;ai}"
 var_cpu="${var_cpu:-2}"
 var_ram="${var_ram:-2048}"
