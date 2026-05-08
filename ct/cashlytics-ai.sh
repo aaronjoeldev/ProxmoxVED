@@ -29,10 +29,7 @@ function update_script() {
     exit
   fi
 
-  RELEASE=$(curl -fsSL https://api.github.com/repos/aaronjoeldev/cashlytics-ai/releases/latest |
-    grep "tag_name" | awk '{print substr($2, 2, length($2)-3)}')
-
-  if [[ ! -f /opt/cashlytics-ai_version.txt ]] || [[ "${RELEASE}" != "$(cat /opt/cashlytics-ai_version.txt)" ]]; then
+  if check_for_gh_release "cashlytics-ai" "aaronjoeldev/cashlytics-ai"; then
     msg_info "Stopping ${APP}"
     systemctl stop cashlytics
     msg_ok "Stopped ${APP}"
@@ -54,7 +51,7 @@ function update_script() {
     $STD npm run build
     $STD npm run db:push
     echo "${RELEASE}" >/opt/cashlytics-ai_version.txt
-    msg_ok "Updated ${APP} to ${RELEASE}"
+    msg_ok "Updated ${APP}"
 
     msg_info "Starting ${APP}"
     systemctl start cashlytics

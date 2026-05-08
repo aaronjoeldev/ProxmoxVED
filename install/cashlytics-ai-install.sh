@@ -52,7 +52,6 @@ cd /opt/cashlytics-ai
 $STD npm ci --omit=dev
 $STD npm run build
 $STD npm run db:push
-echo "${RELEASE}" >/opt/cashlytics-ai_version.txt
 msg_ok "Configured ${APPLICATION}"
 
 msg_info "Creating Service"
