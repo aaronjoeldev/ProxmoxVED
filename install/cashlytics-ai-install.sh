@@ -50,7 +50,8 @@ EOF
 
 cd /opt/cashlytics-ai
 $STD npm ci --omit=dev
-$STD npm run build
+# Next.js build needs up to 4 GB RAM; limit Node.js heap to avoid OOM kills
+NODE_OPTIONS="--max-old-space-size=3072" $STD npm run build
 $STD npm run db:push
 msg_ok "Configured ${APPLICATION}"
 
