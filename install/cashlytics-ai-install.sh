@@ -26,9 +26,10 @@ AUTH_SECRET=$(openssl rand -base64 32)
 CRON_SECRET=$(openssl rand -hex 32)
 
 # --- Generate VAPID keys for push notifications ---
-VAPID_JSON=$(cd /opt/cashlytics-ai && $STD npx --yes web-push generate-vapid-keys --json 2>/dev/null || echo "{}")
-VAPID_PUBLIC_KEY=$(echo "${VAPID_JSON}" | grep -o '"publicKey":"[^"]*"' | cut -d'"' -f4)
-VAPID_PRIVATE_KEY=$(echo "${VAPID_JSON}" | grep -o '"privateKey":"[^"]*"' | cut -d'"' -f4)
+# $STD must NOT be used here — its stdout capture is needed for VAPID_JSON
+VAPID_JSON=$(cd /opt/cashlytics-ai && npx --yes web-push generate-vapid-keys --json 2>/dev/null || echo "{}")
+VAPID_PUBLIC_KEY=$(echo "${VAPID_JSON}" | jq -r '.publicKey // ""' 2>/dev/null || true)
+VAPID_PRIVATE_KEY=$(echo "${VAPID_JSON}" | jq -r '.privateKey // ""' 2>/dev/null || true)
 
 cat <<EOF >/opt/cashlytics-ai/.env
 NODE_ENV=production
